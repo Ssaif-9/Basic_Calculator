@@ -60,9 +60,9 @@ int main(void)
 			if (KeypadValue != '+' && KeypadValue != '-' && KeypadValue != '*' && KeypadValue != '/' && KeypadValue != '=' && KeypadValue != '#' && FirstNumFlag != 4 &&  OperatorFlag == 0 &&  SecondNumFlag == 0 && EqualFlag == 0  )
 			{
 				 FirstNum=KeypadValue;
-				 FirstNumArr[FirstNumFlag]=KeypadValue;
+				 FirstNumArr[FirstNumFlag]=FirstNum;
 				 FirstNumFlag++ ;
-				 LCD_SendNumber(FirstNum);
+				 LCD_SendIntegarNumber(KeypadValue);
 			}
 			
 			 if( (KeypadValue == '+' || KeypadValue == '-' || KeypadValue == '*'|| KeypadValue == '/' ) && (FirstNumFlag != 0  && OperatorFlag == 0  && SecondNumFlag == 0 && EqualFlag == 0)  )
@@ -75,9 +75,9 @@ int main(void)
 			 if (KeypadValue != '+' && KeypadValue != '-' && KeypadValue != '*' && KeypadValue != '/' && KeypadValue != '='  && KeypadValue != '#' && FirstNumFlag != 0 && OperatorFlag == 1 && SecondNumFlag != 4 && EqualFlag == 0 )
 			 {
 				 SecondNum=KeypadValue;
-				 SecondNumArr[SecondNumFlag]=KeypadValue;
+				 SecondNumArr[SecondNumFlag]=SecondNum;
 				 SecondNumFlag++ ;
-				 LCD_SendNumber(KeypadValue);
+				 LCD_SendIntegarNumber(KeypadValue);
 			 }
 			
 			 if (KeypadValue == '=' && FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag != 0 && EqualFlag == 0)
@@ -103,12 +103,19 @@ int main(void)
 			 }
 			if (KeypadValue == '#')
 			 {
-				 LCD_ClearDesplay();
-				 LCD_sendComnd(LCD_GO_TO_2ND_LINE);
-				 LCD_GOTO_LOCATION(5,2);
-				 LCD_SendString("# Reset");
-				 LCD_sendComnd(LCD_GO_TO_1ND_LINE);
-				 FirstNumFlag=SecondNumFlag=OperatorFlag=EqualFlag=0;
+				 if (FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag != 0 && EqualFlag == 1)
+				 {
+					 LCD_ClearDesplay();
+					 LCD_sendComnd(LCD_GO_TO_2ND_LINE);
+					 LCD_GOTO_LOCATION(5,2);
+					 LCD_SendString("# Reset");
+					 LCD_sendComnd(LCD_GO_TO_1ND_LINE);
+					 FirstNumFlag=SecondNumFlag=OperatorFlag=EqualFlag=0;
+				 }
+				 if (FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag != 0 && EqualFlag == 0 )
+				 {
+					 //Clear Last Location by shift left and send 'space' 
+				 }					 
 			 }
 		}	
 	}
@@ -135,7 +142,7 @@ void ADD(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 	
 	
 	*Result = (NUM1 + NUM2) ;
-	LCD_SendNumber(*Result);
+	LCD_SendIntegarNumber(*Result);
 }
 
 void SUB(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag, u32* Result)
@@ -158,12 +165,12 @@ void SUB(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 	{
 		*Result = (NUM2 - NUM1) ;
 		LCD_sendChar('-');
-		LCD_SendNumber(*Result);
+		LCD_SendIntegarNumber(*Result);
 	}
 	else
 	{
 		*Result = (NUM1 - NUM2) ;
-		LCD_SendNumber(*Result);
+		LCD_SendIntegarNumber(*Result);
 	}
 }
 
@@ -183,7 +190,7 @@ void MUL(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 		NUM2 = NUM2*10 +SecondNumArr[Index];
 	}
 	*Result = (NUM1 * NUM2) ;
-	LCD_SendNumber(*Result);
+	LCD_SendIntegarNumber(*Result);
 }
 
 void DIV(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag, u32* Result)
@@ -212,6 +219,6 @@ void DIV(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 	else
 	{
 		*Result = (NUM1 / NUM2) ;
-		LCD_SendNumber(*Result);
+		LCD_SendIntegarNumber(*Result);
 	}
 }

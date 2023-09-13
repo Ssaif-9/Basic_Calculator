@@ -113,10 +113,10 @@ void LCD_GOTO_LOCATION(u8 X_Location, u8 Y_Location)
 	_delay_us(1000);
 }
 
-void LCD_SendNumber(u16 Number)
+void LCD_SendIntegarNumber(u16 IntegerNumber)
 {
 	u16 NumberString[16];
-	itoa(Number,NumberString,10); // 10 -> base (decimal)
+	snprintf(NumberString,17,"%d",IntegerNumber);    
 	LCD_SendString(NumberString);
 }
 
@@ -124,7 +124,24 @@ void LCD_SendNumber(u16 Number)
 void LCD_SendNumberToLocation(u16 Number,u8 X_Location, u8 Y_Location)
 {
 	LCD_GOTO_LOCATION(X_Location,Y_Location);
-	LCD_SendNumber(Number);
+	LCD_SendIntegarNumber(Number);
+}
+
+void LCD_SendFloatNumber(f32 FloatNumber)
+{
+	u16 NumberString[16];
+	snprintf(NumberString,17,"%f",FloatNumber);
+	LCD_SendString(NumberString);
+}
+
+void LCD_VidDataShiftLeft()
+{
+	LCD_sendComnd(LCD_SHIFTLEFT);
+}
+
+void LCD_VidDataShiftRight()
+{
+	LCD_sendComnd(LCD_SHIFTRIGHT);
 }
 
 
@@ -214,16 +231,23 @@ void LCD_GOTO_LOCATION_8BIT(u8 X_Location, u8 Y_Location)
 	_delay_us(1000);
 }
 
-void LCD_SendNumber_8BIT(u16 Number)
+void LCD_SendIntegarNumber_8BIT(u16 IntegerNumber)
 {
 	u16 NumberString[16];
-	itoa(Number,NumberString,10); // 10 -> base (decimal)
+	snprintf(NumberString,17,"%d",IntegerNumber);
 	LCD_SendString_8BIT(NumberString);
 }
 
 
 void LCD_SendNumberToLocation_8BIT(u16 Number,u8 X_Location, u8 Y_Location)
 {
-	LCD_GOTO_LOCATION_8BIT(X_Location,Y_Location);
-	LCD_SendNumber_8BIT(Number);
+	LCD_GOTO_LOCATION(X_Location,Y_Location);
+	LCD_SendIntegarNumber_8BIT(Number);
+}
+
+void LCD_SendFloatNumber_8BIT(f32 FloatNumber)
+{
+	u16 NumberString[16];
+	snprintf(NumberString,17,"%f",FloatNumber);
+	LCD_SendString_8BIT(NumberString);
 }
