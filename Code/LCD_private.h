@@ -24,6 +24,11 @@
 #define LCD_GO_TO_2ND_LINE                    0b11000000
 #define LCD_GO_TO_1ND_LINE                    0b00000010
 #define LCD_Cursor_At_Home_position           0b10000000
+ 
+#define LCD_ShiftRight                        0b00011000
+#define LCD_ShiftLeft                         0b00011100
+#define LCD_CursonLeft                        0b00010000
+#define LCD_CursonRight                       0b00010100
 
 
 static void private_WriteHalfPort (u8 Value);

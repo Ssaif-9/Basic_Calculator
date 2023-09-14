@@ -29,7 +29,7 @@ void LCD_GoToLocation                         (u8 X_Location, u8 LineNumber);
 void LCD_SendIntegarNumber                    (u16 IntegerNumber);
 void LCD_SendNumberToLocation                 (u16 Number,u8 X_Location, u8 LineNumber);
 void LCD_SendFloatNumber                      (f32 FloatNumber);
-
+void LCD_Shift                                (u8 ShiftCmnd);
 
 void LCD_init_8bit                            (void);
 void LCD_sendComnd_8BIT                       (u8 cmnd);

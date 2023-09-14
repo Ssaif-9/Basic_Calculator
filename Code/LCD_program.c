@@ -134,6 +134,10 @@ void LCD_SendFloatNumber(f32 FloatNumber)
 	LCD_SendString(NumberString);
 }
 
+void LCD_Shift(u8 ShiftCmnd)
+{
+	LCD_sendComnd(ShiftCmnd);
+}
 
 
 void private_WriteHalfPort (u8 Value)

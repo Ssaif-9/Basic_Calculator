@@ -36,7 +36,7 @@ int main(void)
 	u32 Result;
 	u32 FirstNumArr[4],SecondNumArr[4];
 	u8 KeypadValue;
-	
+	u8 CurrentLocation=1;
 	u8 FirstNumFlag,OperatorFlag,SecondNumFlag,EqualFlag = 0 ;
 	
 	LCD_init();
@@ -57,8 +57,10 @@ int main(void)
 		KEYPAD_GetValue(&KeypadValue);
 		if (KEYPAD_NOT_PRESSED != KeypadValue )
 		{
+			
 			if (KeypadValue != '+' && KeypadValue != '-' && KeypadValue != '*' && KeypadValue != '/' && KeypadValue != '=' && KeypadValue != '#' && FirstNumFlag != 4 &&  OperatorFlag == 0 &&  SecondNumFlag == 0 && EqualFlag == 0  )
 			{
+				 CurrentLocation++;
 				 FirstNum=KeypadValue;
 				 FirstNumArr[FirstNumFlag]=FirstNum;
 				 FirstNumFlag++ ;
@@ -67,6 +69,7 @@ int main(void)
 			
 			 if( (KeypadValue == '+' || KeypadValue == '-' || KeypadValue == '*'|| KeypadValue == '/' ) && (FirstNumFlag != 0  && OperatorFlag == 0  && SecondNumFlag == 0 && EqualFlag == 0)  )
 			 {
+				 CurrentLocation++;
 			 	 Operator = KeypadValue;
 			 	 OperatorFlag = 1 ;
 			 	 LCD_sendChar(KeypadValue);
@@ -74,6 +77,7 @@ int main(void)
 			
 			 if (KeypadValue != '+' && KeypadValue != '-' && KeypadValue != '*' && KeypadValue != '/' && KeypadValue != '='  && KeypadValue != '#' && FirstNumFlag != 0 && OperatorFlag == 1 && SecondNumFlag != 4 && EqualFlag == 0 )
 			 {
+				 CurrentLocation++;
 				 SecondNum=KeypadValue;
 				 SecondNumArr[SecondNumFlag]=SecondNum;
 				 SecondNumFlag++ ;
@@ -82,6 +86,7 @@ int main(void)
 			
 			 if (KeypadValue == '=' && FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag != 0 && EqualFlag == 0)
 			 {
+				 CurrentLocation++;
 				 Equal=KeypadValue;
 				 EqualFlag = 1 ;
 				 LCD_sendChar(KeypadValue);
@@ -103,6 +108,33 @@ int main(void)
 			 }
 			if (KeypadValue == '#')
 			 {
+				 if (FirstNumFlag != 0 && OperatorFlag == 0  && SecondNumFlag == 0 && EqualFlag == 0)
+				 {
+					 CurrentLocation--;
+					 LCD_Shift(LCD_CursonLeft);
+					 LCD_sendChar(' ');
+					 LCD_GoToLocation(CurrentLocation,1);
+					 FirstNumArr[FirstNumFlag]=0;
+					 FirstNumFlag--;
+				 }
+				 if (FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag == 0 && EqualFlag == 0)
+				 {
+					 CurrentLocation--;
+					 LCD_Shift(LCD_CursonLeft);
+					 LCD_sendChar(' ');
+					 LCD_GoToLocation(CurrentLocation,1);
+					 Operator=0;
+					 OperatorFlag=0;
+				 }
+				 if (FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag != 0 && EqualFlag == 0)
+				 {
+					 CurrentLocation--;
+					 LCD_Shift(LCD_CursonLeft);
+					 LCD_sendChar(' ');
+					 LCD_GoToLocation(CurrentLocation,1);
+					 SecondNumArr[SecondNumFlag]=0;
+					 SecondNumFlag--;
+				 }
 				 if (FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag != 0 && EqualFlag == 1)
 				 {
 					 LCD_ClearDesplay();
@@ -111,7 +143,8 @@ int main(void)
 					 LCD_SendString("# Reset");
 					 LCD_sendComnd(LCD_GO_TO_1ND_LINE);
 					 FirstNumFlag=SecondNumFlag=OperatorFlag=EqualFlag=0;
-				 }				 
+					 CurrentLocation=1;
+				 }		 
 			 }
 		}	
 	}
