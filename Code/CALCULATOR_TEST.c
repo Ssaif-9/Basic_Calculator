@@ -32,24 +32,24 @@ void DIV(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 int main(void)
 {
 	u8 Operator,Equal;
-	u32 FirstNum , SecondNum ;
+	u8 FirstNum , SecondNum ;
 	u32 Result;
 	u32 FirstNumArr[4],SecondNumArr[4];
-	u32 KeypadValue;
+	u8 KeypadValue;
 	
 	u8 FirstNumFlag,OperatorFlag,SecondNumFlag,EqualFlag = 0 ;
 	
 	LCD_init();
 	KEYPAD_init();
 	
-	LCD_GOTO_LOCATION(5,1);
+	LCD_GoToLocation(5,1);
 	LCD_SendString("WELCOME!");
 	LCD_sendComnd(LCD_GO_TO_2ND_LINE);
 	LCD_SendString(" +-/*CALCOLATOR ");
-	_delay_ms(1000);
+	_delay_ms(1500);
 	LCD_ClearDesplay();
 	LCD_sendComnd(LCD_GO_TO_2ND_LINE);
-	LCD_GOTO_LOCATION(5,2);
+	LCD_GoToLocation(5,2);
 	LCD_SendString("# Reset");
 	LCD_sendComnd(LCD_GO_TO_1ND_LINE);
 	while(1)
@@ -107,15 +107,11 @@ int main(void)
 				 {
 					 LCD_ClearDesplay();
 					 LCD_sendComnd(LCD_GO_TO_2ND_LINE);
-					 LCD_GOTO_LOCATION(5,2);
+					 LCD_GoToLocation(5,2);
 					 LCD_SendString("# Reset");
 					 LCD_sendComnd(LCD_GO_TO_1ND_LINE);
 					 FirstNumFlag=SecondNumFlag=OperatorFlag=EqualFlag=0;
-				 }
-				 if (FirstNumFlag != 0 && OperatorFlag == 1  && SecondNumFlag != 0 && EqualFlag == 0 )
-				 {
-					 //Clear Last Location by shift left and send 'space' 
-				 }					 
+				 }				 
 			 }
 		}	
 	}
@@ -139,7 +135,6 @@ void ADD(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 	{
 		NUM2 = NUM2*10 +SecondNumArr[Index];
 	}
-	
 	
 	*Result = (NUM1 + NUM2) ;
 	LCD_SendIntegarNumber(*Result);
@@ -189,6 +184,7 @@ void MUL(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 	{
 		NUM2 = NUM2*10 +SecondNumArr[Index];
 	}
+	
 	*Result = (NUM1 * NUM2) ;
 	LCD_SendIntegarNumber(*Result);
 }
@@ -213,7 +209,7 @@ void DIV(u32 FirstNumArr[], u32 SecondNumArr[],u8 FirstNumFlag,u8 SecondNumFlag,
 		LCD_ClearDesplay();
 		LCD_SendString("Division ERROR/0");
 		LCD_sendComnd(LCD_GO_TO_2ND_LINE);
-		LCD_GOTO_LOCATION(5,2);
+		LCD_GoToLocation(5,2);
 		LCD_SendString("# Reset");
 	}	
 	else

@@ -106,10 +106,10 @@ void LCD_ClearDesplay()
 	LCD_sendComnd (LCD_Cursor_At_Home_position);		
 }
 
-void LCD_GOTO_LOCATION(u8 X_Location, u8 Y_Location)
+void LCD_GoToLocation(u8 X_Location, u8 LineNumber)
 {
 	u8 FirstLocation[] = {0x80, 0xC0, 0x94, 0xD4};
-	LCD_sendComnd(FirstLocation[Y_Location-1] + X_Location-1);
+	LCD_sendComnd(FirstLocation[LineNumber-1] + X_Location-1);
 	_delay_us(1000);
 }
 
@@ -121,9 +121,9 @@ void LCD_SendIntegarNumber(u16 IntegerNumber)
 }
 
 
-void LCD_SendNumberToLocation(u16 Number,u8 X_Location, u8 Y_Location)
+void LCD_SendNumberToLocation(u16 Number,u8 X_Location, u8 LineNumber)
 {
-	LCD_GOTO_LOCATION(X_Location,Y_Location);
+	LCD_GoToLocation(X_Location,LineNumber);
 	LCD_SendIntegarNumber(Number);
 }
 
@@ -134,15 +134,6 @@ void LCD_SendFloatNumber(f32 FloatNumber)
 	LCD_SendString(NumberString);
 }
 
-void LCD_VidDataShiftLeft()
-{
-	LCD_sendComnd(LCD_SHIFTLEFT);
-}
-
-void LCD_VidDataShiftRight()
-{
-	LCD_sendComnd(LCD_SHIFTRIGHT);
-}
 
 
 void private_WriteHalfPort (u8 Value)
@@ -224,10 +215,10 @@ void LCD_ClearDesplay_8BIT ()
 	LCD_sendComnd_8BIT (LCD_Cursor_At_Home_position);
 }
 
-void LCD_GOTO_LOCATION_8BIT(u8 X_Location, u8 Y_Location)
+void LCD_GoToLocation_8BIT(u8 X_Location, u8 LineNumber)
 {
 	u8 FirstLocation[] = {0x80, 0xC0, 0x94, 0xD4};
-	LCD_sendComnd_8BIT(FirstLocation[Y_Location-1] + X_Location-1);
+	LCD_sendComnd_8BIT(FirstLocation[LineNumber-1] + X_Location-1);
 	_delay_us(1000);
 }
 
@@ -239,9 +230,9 @@ void LCD_SendIntegarNumber_8BIT(u16 IntegerNumber)
 }
 
 
-void LCD_SendNumberToLocation_8BIT(u16 Number,u8 X_Location, u8 Y_Location)
+void LCD_SendNumberToLocation_8BIT(u16 Number,u8 X_Location, u8 LineNumber)
 {
-	LCD_GOTO_LOCATION(X_Location,Y_Location);
+	LCD_GoToLocation_8BIT(X_Location,LineNumber);
 	LCD_SendIntegarNumber_8BIT(Number);
 }
 
